@@ -3,421 +3,166 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vakeel.ai — Constitutional Legal Intelligence</title>
+<title>vakeel.ai — Universal Legal Intelligence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Lora:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <style>
   :root {
-    --cream: #F4EFE4;
-    --cream-dark: #E8DFC9;
-    --cream-mid: #EDE5D0;
-    --board: #1E1208;
-    --board-2: #2A1A0A;
-    --board-3: #3A220E;
-    --wood: #5C3318;
-    --accent: #922E0E;
-    --accent-2: #C44A1C;
-    --accent-3: #E8693A;
-    --gold: #B07B08;
-    --gold-2: #D4A017;
-    --gold-3: #F0C040;
-    --green: #1A5C3A;
-    --green-2: #2E8B57;
-    --green-3: #52C47A;
-    --text-dark: #140C04;
-    --text-mid: #3D2210;
-    --text-muted: #7A5A36;
-    --text-faint: #B09070;
-    --border: #C8B090;
-    --border-dark: rgba(255,255,255,0.08);
-    --border-dark-2: rgba(255,255,255,0.13);
-    --sidebar: 240px;
-    --radius: 10px;
-    --radius-lg: 14px;
+    --cream: #F4EFE4; --cream-dark: #E8DFC9; --cream-mid: #EDE5D0;
+    --board: #1E1208; --board-2: #2A1A0A; --board-3: #3A220E;
+    --wood: #5C3318; --accent: #922E0E; --accent-2: #C44A1C; --accent-3: #E8693A;
+    --gold: #B07B08; --gold-2: #D4A017; --gold-3: #F0C040;
+    --green: #1A5C3A; --green-2: #2E8B57; --green-3: #52C47A;
+    --text-dark: #140C04; --text-mid: #3D2210; --text-muted: #7A5A36; --text-faint: #B09070;
+    --border: #C8B090; --border-dark: rgba(255,255,255,0.08); --border-dark-2: rgba(255,255,255,0.13);
+    --sidebar: 240px; --radius: 10px; --radius-lg: 14px;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; background: var(--cream-dark); font-family: 'DM Mono', monospace; color: var(--text-dark); overflow: hidden; }
 
-  html, body {
-    height: 100%;
-    background: var(--cream-dark);
-    font-family: 'DM Mono', monospace;
-    color: var(--text-dark);
-    overflow: hidden;
-  }
+  .shell { width: 100vw; height: 100vh; display: flex; flex-direction: column; background: var(--cream-dark); background-image: radial-gradient(var(--border) 0.8px, transparent 0.8px); background-size: 22px 22px; }
+  .window { margin: 18px auto; width: calc(100% - 36px); max-width: 1280px; height: calc(100vh - 36px); background: var(--cream); border-radius: 16px; border: 1.5px solid var(--border); box-shadow: 0 8px 40px rgba(20,12,4,0.28), 0 2px 8px rgba(20,12,4,0.18); display: flex; flex-direction: column; overflow: hidden; }
+  .titlebar { background: var(--cream-mid); border-bottom: 1.5px solid var(--border); padding: 10px 18px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .tl-dots { display: flex; gap: 6px; } .dot { width: 12px; height: 12px; border-radius: 50%; } .dot-r { background: #FF5F57; } .dot-y { background: #FEBC2E; } .dot-g { background: #28C840; }
+  .tl-title { flex: 1; text-align: center; font-size: 12px; color: var(--text-muted); letter-spacing: 0.06em; }
+  .tl-badge { font-size: 10px; color: var(--text-muted); background: var(--cream); border: 1px solid var(--border); border-radius: 5px; padding: 2px 8px; }
 
-  /* ── OUTER SHELL ── */
-  .shell {
-    width: 100vw; height: 100vh;
-    display: flex; flex-direction: column;
-    background: var(--cream-dark);
-    background-image: radial-gradient(var(--border) 0.8px, transparent 0.8px);
-    background-size: 22px 22px;
-  }
-
-  /* ── WINDOW CHROME ── */
-  .window {
-    margin: 18px auto;
-    width: calc(100% - 36px);
-    max-width: 1280px;
-    height: calc(100vh - 36px);
-    background: var(--cream);
-    border-radius: 16px;
-    border: 1.5px solid var(--border);
-    box-shadow: 0 8px 40px rgba(20,12,4,0.28), 0 2px 8px rgba(20,12,4,0.18);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .titlebar {
-    background: var(--cream-mid);
-    border-bottom: 1.5px solid var(--border);
-    padding: 10px 18px;
-    display: flex; align-items: center; gap: 10px;
-    flex-shrink: 0;
-  }
-
-  .tl-dots { display: flex; gap: 6px; }
-  .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .dot-r { background: #FF5F57; }
-  .dot-y { background: #FEBC2E; }
-  .dot-g { background: #28C840; }
-
-  .tl-title {
-    flex: 1; text-align: center;
-    font-size: 12px; color: var(--text-muted);
-    letter-spacing: 0.06em;
-  }
-
-  .tl-badge {
-    font-size: 10px; color: var(--text-muted);
-    background: var(--cream); border: 1px solid var(--border);
-    border-radius: 5px; padding: 2px 8px;
-  }
-
-  /* ── BODY LAYOUT ── */
   .app-body { display: flex; flex: 1; min-height: 0; overflow: hidden; }
-
-  /* ── SIDEBAR ── */
-  .sidebar {
-    width: var(--sidebar);
-    background: var(--cream);
-    border-right: 1.5px solid var(--border);
-    display: flex; flex-direction: column;
-    padding: 18px 14px 16px;
-    gap: 20px;
-    flex-shrink: 0;
-    overflow-y: auto;
-  }
-
-  .logo {
-    display: flex; align-items: center; gap: 9px;
-    font-family: 'DM Serif Display', serif;
-    font-size: 24px; color: var(--text-dark);
-  }
-  .logo-icon {
-    width: 32px; height: 32px; border-radius: 8px;
-    background: var(--board); display: flex;
-    align-items: center; justify-content: center;
-    font-size: 17px; flex-shrink: 0;
-  }
-  .logo-dot {
-    width: 6px; height: 6px; border-radius: 50%;
-    background: var(--accent-2); margin-bottom: 14px; margin-left: -4px;
-  }
-
-  .sb-label {
-    font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
-    color: var(--text-faint); margin-bottom: 6px;
-  }
-
-  .mode-toggle {
-    display: flex; background: var(--cream-dark);
-    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
-  }
-  .mode-btn {
-    flex: 1; padding: 8px 4px; border: none; background: transparent;
-    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-muted);
-    cursor: pointer; transition: all 0.15s;
-    display: flex; align-items: center; justify-content: center; gap: 5px;
-  }
-  .mode-btn.active {
-    background: var(--board); color: var(--cream);
-    border-radius: 6px; margin: 2px;
-  }
+  .sidebar { width: var(--sidebar); background: var(--cream); border-right: 1.5px solid var(--border); display: flex; flex-direction: column; padding: 18px 14px 16px; gap: 20px; flex-shrink: 0; overflow-y: auto; }
+  .logo { display: flex; align-items: center; gap: 9px; font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--text-dark); }
+  .logo-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--board); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; }
+  .logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-2); margin-bottom: 14px; margin-left: -4px; }
+  
+  .sb-label { font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 6px; }
+  .mode-toggle { display: flex; background: var(--cream-dark); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .mode-btn { flex: 1; padding: 8px 4px; border: none; background: transparent; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-muted); cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 5px; }
+  .mode-btn.active { background: var(--board); color: var(--cream); border-radius: 6px; margin: 2px; }
 
   .nav-list { display: flex; flex-direction: column; gap: 3px; }
-  .nav-item {
-    padding: 9px 11px; border-radius: 7px; border: 1px solid transparent;
-    font-size: 11px; color: var(--text-mid); cursor: pointer;
-    display: flex; align-items: center; gap: 9px; transition: all 0.14s;
-    background: transparent;
-  }
-  .nav-item:hover { background: var(--cream-dark); border-color: var(--border); }
-  .nav-item.active { background: var(--board); color: var(--cream); border-color: var(--board-3); }
+  .nav-item { padding: 9px 11px; border-radius: 7px; border: 1px solid transparent; font-size: 11px; color: var(--text-mid); cursor: not-allowed; display: flex; align-items: center; gap: 9px; transition: all 0.14s; background: transparent; opacity: 0.6; }
+  .nav-item.active { background: var(--board); color: var(--cream); border-color: var(--board-3); opacity: 1; cursor: default; }
+  .nav-item.completed { opacity: 1; cursor: pointer; }
+  .nav-item.completed:hover { background: var(--cream-dark); border-color: var(--border); }
   .nav-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 
-  .api-key-box {
-    background: var(--cream-dark); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 11px;
-  }
-  .api-key-box input {
-    width: 100%; background: transparent; border: none; outline: none;
-    font-family: 'DM Mono', monospace; font-size: 10px;
-    color: var(--text-mid); letter-spacing: 0.04em;
-  }
-  .api-key-box input::placeholder { color: var(--text-faint); }
+  .db-btn { background: var(--accent); color: white; padding: 10px; border-radius: 8px; border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+  .db-btn:hover { background: var(--accent-2); }
 
-  .stat-card {
-    background: var(--cream-dark); border: 1px solid var(--border);
-    border-radius: 8px; padding: 10px 12px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
+  .api-key-box { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+  .custom-select { width: 100%; background: transparent; border: none; outline: none; font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-mid); padding: 10px 11px; cursor: pointer; appearance: none; }
+  .select-wrapper { position: relative; }
+  .select-wrapper::after { content: "▼"; font-size: 8px; color: var(--text-muted); position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+
+  .stat-card { background: var(--cream-dark); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; justify-content: space-between; }
   .stat-label { font-size: 10px; color: var(--text-muted); }
-  .stat-val {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px; color: var(--accent);
-  }
-
+  .stat-val { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--accent); }
   .sb-footer { margin-top: auto; display: flex; gap: 6px; }
-  .sb-btn {
-    flex: 1; padding: 8px; border-radius: 7px;
-    border: 1px solid var(--border); background: var(--cream-dark);
-    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-mid);
-    cursor: pointer; transition: all 0.12s;
-  }
+  .sb-btn { flex: 1; padding: 8px; border-radius: 7px; border: 1px solid var(--border); background: var(--cream-dark); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text-mid); cursor: pointer; transition: all 0.12s; }
   .sb-btn:hover { background: var(--cream-mid); }
-  .sb-btn.primary {
-    background: var(--accent); color: #fff; border-color: var(--accent);
-  }
-  .sb-btn.primary:hover { background: var(--accent-2); }
+  .sb-btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-  /* ── MAIN CONTENT ── */
-  .main {
-    flex: 1; background: var(--board);
-    display: flex; flex-direction: column; min-width: 0; position: relative;
-    overflow: hidden;
-  }
-
-  .grain {
-    position: absolute; inset: 0; pointer-events: none; z-index: 0;
-    background-image: radial-gradient(rgba(255,255,255,0.028) 1px, transparent 1px);
-    background-size: 16px 16px;
-  }
-
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 13px 20px; border-bottom: 1px solid var(--border-dark);
-    flex-shrink: 0; position: relative; z-index: 2;
-  }
-  .status-pill {
-    background: rgba(255,255,255,0.07); border: 1px solid var(--border-dark-2);
-    border-radius: 20px; padding: 5px 14px; font-size: 12px; color: #E8D5B8;
-    display: flex; align-items: center; gap: 7px;
-  }
+  .main { flex: 1; background: var(--board); display: flex; flex-direction: column; min-width: 0; position: relative; overflow: hidden; }
+  .grain { position: absolute; inset: 0; pointer-events: none; z-index: 0; background-image: radial-gradient(rgba(255,255,255,0.028) 1px, transparent 1px); background-size: 16px 16px; }
+  .topbar { display: flex; align-items: center; justify-content: space-between; padding: 13px 20px; border-bottom: 1px solid var(--border-dark); flex-shrink: 0; position: relative; z-index: 2; }
+  .status-pill { background: rgba(255,255,255,0.07); border: 1px solid var(--border-dark-2); border-radius: 20px; padding: 5px 14px; font-size: 12px; color: #E8D5B8; display: flex; align-items: center; gap: 7px; }
   .status-led { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--green-3); animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+  .rag-pill { background: var(--green); border-radius: 20px; padding: 5px 13px; font-size: 11px; color: #90E8B8; display: flex; align-items: center; gap: 5px; }
 
-  .rag-pill {
-    background: var(--green); border-radius: 20px; padding: 5px 13px;
-    font-size: 11px; color: #90E8B8; display: flex; align-items: center; gap: 5px;
-  }
+  .scroll-area { flex: 1; overflow-y: auto; padding: 22px 22px 32px; position: relative; z-index: 1; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) transparent; }
+  .sec-eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(244,239,228,0.3); margin-bottom: 5px; }
+  .sec-title { font-family: 'Lora', serif; font-size: 20px; font-weight: 600; color: #F2E6CC; margin-bottom: 18px; }
 
-  /* ── SCROLL AREA ── */
-  .scroll-area {
-    flex: 1; overflow-y: auto; padding: 22px 22px 32px;
-    position: relative; z-index: 1;
-    scrollbar-width: thin; scrollbar-color: rgba(255,255,255,0.12) transparent;
-  }
-
-  /* ── SECTION HEADER ── */
-  .sec-eyebrow {
-    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
-    color: rgba(244,239,228,0.3); margin-bottom: 5px;
-  }
-  .sec-title {
-    font-family: 'Lora', serif; font-size: 20px; font-weight: 600;
-    color: #F2E6CC; margin-bottom: 18px;
-  }
-
-  /* ── FORM FIELDS ── */
   .field-group { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
-  .field-label {
-    font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
-    color: rgba(244,239,228,0.45); margin-bottom: 5px;
-  }
-  .field-input, .field-textarea, .field-select {
-    width: 100%; background: rgba(255,255,255,0.055);
-    border: 1px solid var(--border-dark-2); border-radius: 8px;
-    padding: 11px 13px; font-family: 'DM Mono', monospace; font-size: 12px;
-    color: #EEE0C4; outline: none; transition: border-color 0.15s;
-    resize: none;
-  }
+  .field-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(244,239,228,0.45); margin-bottom: 5px; }
+  .field-input, .field-textarea, .field-select { width: 100%; background: rgba(255,255,255,0.055); border: 1px solid var(--border-dark-2); border-radius: 8px; padding: 11px 13px; font-family: 'DM Mono', monospace; font-size: 12px; color: #EEE0C4; outline: none; transition: border-color 0.15s; resize: none; }
   .field-input::placeholder, .field-textarea::placeholder { color: rgba(238,224,196,0.25); }
   .field-input:focus, .field-textarea:focus { border-color: rgba(255,255,255,0.25); }
   .field-select option { background: var(--board-3); color: #EEE0C4; }
-  .field-textarea { line-height: 1.6; min-height: 120px; }
-  .field-textarea.tall { min-height: 180px; }
-
+  .field-textarea { line-height: 1.6; min-height: 120px; } .field-textarea.tall { min-height: 180px; }
   .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  @media (max-width: 700px) { .field-row { grid-template-columns: 1fr; } }
 
-  /* ── CARDS ── */
-  .card {
-    background: rgba(255,255,255,0.05); border: 1px solid var(--border-dark-2);
-    border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 14px;
-  }
+  /* DROPZONE UI */
+  .dropzone { border: 2px dashed var(--border-dark-2); border-radius: 8px; padding: 30px; text-align: center; color: rgba(244,239,228,0.6); font-size: 13px; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.02); }
+  .dropzone:hover, .dropzone.dragover { border-color: var(--gold-3); background: rgba(240,192,64,0.05); color: var(--gold-3); }
+
+  .card { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dark-2); border-radius: var(--radius-lg); padding: 16px 18px; margin-bottom: 14px; }
   .card.gold-border { border-color: rgba(176,123,8,0.4); background: rgba(176,123,8,0.07); }
   .card.green-border { border-color: rgba(82,196,122,0.3); background: rgba(82,196,122,0.06); }
   .card.red-border { border-color: rgba(196,74,28,0.4); background: rgba(196,74,28,0.07); }
 
-  /* ── BUTTONS ── */
-  .btn-primary {
-    background: var(--accent); color: #fff; border: none;
-    border-radius: 8px; padding: 12px 24px;
-    font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500;
-    cursor: pointer; transition: all 0.15s; display: inline-flex;
-    align-items: center; gap: 8px;
-  }
+  .btn-primary { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 12px 24px; font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; gap: 8px; }
   .btn-primary:hover { background: var(--accent-2); transform: translateY(-1px); }
-  .btn-primary:active { transform: translateY(0); }
-  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-  .btn-secondary {
-    background: rgba(255,255,255,0.08); color: #EEE0C4;
-    border: 1px solid var(--border-dark-2);
-    border-radius: 8px; padding: 10px 18px;
-    font-family: 'DM Mono', monospace; font-size: 12px;
-    cursor: pointer; transition: all 0.14s;
-  }
+  .btn-secondary { background: rgba(255,255,255,0.08); color: #EEE0C4; border: 1px solid var(--border-dark-2); border-radius: 8px; padding: 10px 18px; font-family: 'DM Mono', monospace; font-size: 12px; cursor: pointer; transition: all 0.14s; }
   .btn-secondary:hover { background: rgba(255,255,255,0.13); }
+  .btn-pdf { background: var(--gold-2); color: #000; border: none; border-radius: 8px; padding: 10px 18px; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: 600; cursor: pointer; }
+  .btn-pdf:hover { background: var(--gold-3); }
+  .btn-fix { background: rgba(196,74,28,0.15); color: #F0A870; border: 1px solid rgba(196,74,28,0.4); border-radius: 6px; padding: 5px 10px; font-family: 'DM Mono', monospace; font-size: 10px; cursor: pointer; transition: all 0.1s; display: inline-block; margin-top: 6px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: bold; }
+  .btn-fix:hover { background: rgba(196,74,28,0.3); color: #fff; }
 
-  /* ── DUAL SEARCH LANES ── */
   .dual-lanes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
-  .lane {
-    background: rgba(255,255,255,0.04); border: 1px solid var(--border-dark);
-    border-radius: 9px; padding: 12px 13px;
-  }
+  .lane { background: rgba(255,255,255,0.04); border: 1px solid var(--border-dark); border-radius: 9px; padding: 12px 13px; }
   .lane.const-lane { border-color: rgba(176,123,8,0.35); background: rgba(176,123,8,0.06); }
   .lane-header { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(244,239,228,0.4); margin-bottom: 7px; }
   .lane.const-lane .lane-header { color: var(--gold-3); }
-  .tag-row { display: flex; flex-wrap: wrap; gap: 4px; }
-  .tag {
-    font-size: 10px; padding: 2px 8px; border-radius: 4px;
-    font-family: 'DM Mono', monospace;
-  }
-  .tag-s { background: rgba(82,196,122,0.18); color: #90E8B8; }
-  .tag-c { background: rgba(240,192,64,0.18); color: var(--gold-3); }
-  .tag-p { background: rgba(196,74,28,0.22); color: #F0A870; }
 
-  /* ── OUTPUT AREA ── */
-  .output-box {
-    background: rgba(255,255,255,0.04); border: 1px solid var(--border-dark-2);
-    border-radius: var(--radius-lg); padding: 18px; min-height: 100px;
-    font-family: 'Lora', serif; font-size: 13px; line-height: 1.75;
-    color: #EDE0C4; white-space: pre-wrap; position: relative;
-  }
-  .output-box.loading { opacity: 0.6; }
-  .output-placeholder { color: rgba(237,224,196,0.28); font-style: italic; font-size: 12px; }
+  /* Output Editor */
+  .output-box { background: rgba(255,255,255,0.04); border: 1px solid var(--border-dark-2); border-radius: var(--radius-lg); padding: 18px; min-height: 100px; font-family: 'Lora', serif; font-size: 13px; line-height: 1.75; color: #EDE0C4; white-space: pre-wrap; position: relative; transition: all 0.3s; }
+  .output-box[contenteditable="true"] { outline: none; border-color: var(--gold-3); background: rgba(240,192,64,0.03); cursor: text; }
+  .output-box[contenteditable="true"]:focus { box-shadow: 0 0 0 2px rgba(240,192,64,0.2); }
+  .edit-badge { position: absolute; top: -10px; right: 20px; background: var(--gold-3); color: #000; font-size: 9px; font-weight: bold; padding: 2px 8px; border-radius: 10px; text-transform: uppercase; opacity: 0; transition: opacity 0.3s; font-family: 'DM Mono', monospace; }
+  .output-box[contenteditable="true"] + .edit-badge { opacity: 1; }
 
-  /* ── SCORE DASHBOARD ── */
   .score-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 16px; }
-  @media (max-width: 800px) { .score-grid { grid-template-columns: repeat(2,1fr); } }
-  .score-tile {
-    background: rgba(255,255,255,0.05); border: 1px solid var(--border-dark);
-    border-radius: 9px; padding: 12px 14px;
-  }
+  .score-tile { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dark); border-radius: 9px; padding: 12px 14px; transition: all 0.3s;}
   .score-tile.gold { border-color: rgba(176,123,8,0.4); background: rgba(176,123,8,0.08); }
   .score-tile.green { border-color: rgba(82,196,122,0.3); background: rgba(82,196,122,0.07); }
   .score-tile.red { border-color: rgba(196,74,28,0.35); background: rgba(196,74,28,0.07); }
   .tile-label { font-size: 10px; color: rgba(244,239,228,0.38); text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 5px; }
-  .tile-val { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F2E6CC; }
-  .tile-val.green { color: var(--green-3); }
-  .tile-val.gold { color: var(--gold-3); }
-  .tile-val.red { color: var(--accent-3); }
+  .tile-val { font-family: 'DM Serif Display', serif; font-size: 28px; color: #F2E6CC; transition: color 0.3s;}
+  .tile-val.green { color: var(--green-3); } .tile-val.gold { color: var(--gold-3); } .tile-val.red { color: var(--accent-3); }
   .progress-bar { height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; margin-top: 6px; overflow: hidden; }
-  .progress-fill { height: 100%; border-radius: 2px; transition: width 1s ease; background: var(--green-3); }
-  .progress-fill.gold { background: var(--gold-3); }
+  .progress-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; background: var(--green-3); }
 
-  /* ── TABS ── */
-  .tab-bar { display: flex; gap: 4px; margin-bottom: 16px; }
-  .tab-btn {
-    padding: 7px 14px; border-radius: 7px; border: 1px solid transparent;
-    background: transparent; font-family: 'DM Mono', monospace; font-size: 11px;
-    color: rgba(244,239,228,0.5); cursor: pointer; transition: all 0.13s;
-  }
-  .tab-btn:hover { background: rgba(255,255,255,0.07); color: rgba(244,239,228,0.8); }
-  .tab-btn.active { background: rgba(255,255,255,0.1); border-color: var(--border-dark-2); color: #F2E6CC; }
+  .clause-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px;}
+  .clause-item { display: flex; justify-content: space-between; align-items: center; background: rgba(196,74,28,0.05); border: 1px solid rgba(196,74,28,0.2); border-radius: 6px; padding: 10px 14px; animation: fadeIn 0.4s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; }
-
-  /* ── PRECEDENT LIST ── */
-  .precedent-list { display: flex; flex-direction: column; gap: 8px; }
-  .precedent-item {
-    background: rgba(255,255,255,0.04); border: 1px solid var(--border-dark);
-    border-radius: 8px; padding: 12px 14px; cursor: pointer; transition: all 0.13s;
-  }
-  .precedent-item:hover { background: rgba(255,255,255,0.08); }
-  .precedent-name { font-size: 13px; color: #F0E4CC; font-weight: 500; margin-bottom: 3px; }
-  .precedent-meta { font-size: 11px; color: rgba(244,239,228,0.4); display: flex; gap: 10px; }
-  .precedent-relevance {
-    font-size: 10px; padding: 2px 8px; border-radius: 4px;
-    background: rgba(82,196,122,0.18); color: var(--green-3);
-    float: right; margin-top: -20px;
-  }
-
-  /* ── CONSTITUTIONAL ARTICLES ── */
   .article-list { display: flex; flex-direction: column; gap: 8px; }
-  .article-item {
-    background: rgba(176,123,8,0.08); border: 1px solid rgba(176,123,8,0.3);
-    border-radius: 8px; padding: 12px 14px;
-  }
+  .article-item { background: rgba(176,123,8,0.08); border: 1px solid rgba(176,123,8,0.3); border-radius: 8px; padding: 12px 14px; }
   .article-num { font-size: 11px; color: var(--gold-3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 3px; }
   .article-title { font-size: 13px; color: #F2E6CC; font-weight: 500; margin-bottom: 4px; }
   .article-desc { font-size: 11px; color: rgba(244,239,228,0.5); font-style: italic; font-family: 'Lora', serif; line-height: 1.5; }
 
-  /* ── STREAMING CURSOR ── */
   .cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent-3); margin-left: 2px; animation: blink 0.8s steps(1) infinite; vertical-align: text-bottom; }
   @keyframes blink { 50%{opacity:0} }
-
-  /* ── LOADING SPINNER ── */
-  .spinner {
-    display: inline-block; width: 14px; height: 14px;
-    border: 2px solid rgba(255,255,255,0.2); border-top-color: #fff;
-    border-radius: 50%; animation: spin 0.7s linear infinite;
-  }
+  .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.2); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* ── ALERT ── */
-  .alert {
-    padding: 10px 14px; border-radius: 8px; font-size: 12px;
-    margin-bottom: 12px; display: flex; align-items: flex-start; gap: 8px;
-  }
-  .alert.warn { background: rgba(196,74,28,0.15); border: 1px solid rgba(196,74,28,0.3); color: #F0A870; }
+  .alert { padding: 10px 14px; border-radius: 8px; font-size: 12px; margin-bottom: 12px; display: flex; align-items: flex-start; gap: 8px; }
   .alert.info { background: rgba(82,196,122,0.12); border: 1px solid rgba(82,196,122,0.25); color: #90E8B8; }
   .alert.gold { background: rgba(176,123,8,0.12); border: 1px solid rgba(176,123,8,0.3); color: var(--gold-3); }
 
-  /* ── DIVIDER ── */
-  .divider { border: none; border-top: 1px solid var(--border-dark); margin: 18px 0; }
+  .db-item { background: rgba(255,255,255,0.05); border: 1px solid var(--border-dark); border-radius: 8px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; position: relative; overflow: hidden; }
+  .db-item:hover { border-color: var(--border); background: rgba(255,255,255,0.08); transform: translateY(-1px); }
+  .db-item::before { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background:var(--gold-3); opacity:0; transition:0.2s;}
+  .db-item:hover::before { opacity:1; }
+  .db-header { display: flex; justify-content: space-between; margin-bottom: 6px; }
+  .db-title { font-size: 14px; font-weight: 600; color: #F2E6CC; }
+  .db-date { font-size: 10px; color: var(--text-faint); }
+  .tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-family: 'DM Mono', monospace; display:inline-block; margin-right:5px;}
+  .tag-s { background: rgba(82,196,122,0.18); color: #90E8B8; } .tag-p { background: rgba(196,74,28,0.22); color: #F0A870; }
 
-  /* ── ACTION ROW ── */
-  .action-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  /* Info Grid */
+  .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 14px; }
+  .info-box { background: rgba(255,255,255,0.03); border: 1px solid var(--border-dark); border-radius: 8px; padding: 12px; }
+  .info-box-label { font-size: 9px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; letter-spacing: 0.05em; }
+  .info-box-val { font-size: 13px; color: #E8D5B8; font-weight: 500; }
 
-  /* ── NOTICE PREVIEW ── */
-  .notice-header {
-    font-size: 11px; letter-spacing: 0.06em; color: rgba(244,239,228,0.35);
-    text-transform: uppercase; border-bottom: 1px solid var(--border-dark); padding-bottom: 10px; margin-bottom: 12px;
-    display: flex; justify-content: space-between; align-items: center;
-  }
-
-  /* ── SCROLLBAR ── */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-
-  /* ── HIDDEN ── */
-  .hidden { display: none !important; }
+  ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: transparent; } ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
 </style>
 </head>
 <body>
@@ -425,35 +170,30 @@
 <div class="shell">
 <div class="window">
 
-  <!-- TITLEBAR -->
   <div class="titlebar">
-    <div class="tl-dots">
-      <div class="dot dot-r"></div>
-      <div class="dot dot-y"></div>
-      <div class="dot dot-g"></div>
-    </div>
-    <div class="tl-title" id="titleText">vakeel.ai — constitutional legal intelligence</div>
-    <div class="tl-badge">v1.0 mvp</div>
+    <div class="tl-dots"><div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div></div>
+    <div class="tl-title" id="titleText">vakeel.ai — universal legal intelligence</div>
+    <div class="tl-badge">v2.5 pro</div>
   </div>
 
   <div class="app-body">
-    <!-- SIDEBAR -->
     <div class="sidebar">
-      <div class="logo">
-        <div class="logo-icon">⚖</div>
-        Vakeel
-        <div class="logo-dot"></div>
-      </div>
+      <div class="logo"><div class="logo-icon">⚖</div>Vakeel<div class="logo-dot"></div></div>
+      
+      <button class="db-btn" onclick="openDatabase()">📂 Case Files & History</button>
 
-      <!-- API KEY -->
       <div>
-        <div class="sb-label">Anthropic API Key</div>
-        <div class="api-key-box">
-          <input type="password" id="apiKeyInput" placeholder="sk-ant-api03-..." autocomplete="off">
+        <div class="sb-label">Open Source Model</div>
+        <div class="api-key-box select-wrapper">
+          <select class="custom-select" id="aiModelSelect">
+            <option value="Zephyr 7B Beta">Zephyr 7B Beta (free)</option>
+            <option value="Mistral 7B Instruct">Mistral 7B Instruct (free)</option>
+            <option value="Phi-3 Mini">Phi-3 Mini (free)</option>
+            <option value="Falcon 7B">Falcon 7B (free)</option>
+          </select>
         </div>
       </div>
 
-      <!-- MODE -->
       <div>
         <div class="sb-label">Mode</div>
         <div class="mode-toggle">
@@ -462,42 +202,29 @@
         </div>
       </div>
 
-      <!-- NAV -->
       <div>
-        <div class="sb-label">Workflow</div>
+        <div class="sb-label">Workflow Steps</div>
         <div class="nav-list" id="navList"></div>
       </div>
 
-      <!-- SCORE STAT -->
       <div class="stat-card" id="scoreCard" style="display:none">
-        <div>
-          <div class="stat-label">Draft Score</div>
-          <div style="font-size:10px;color:var(--text-faint);margin-top:2px;">last analysis</div>
-        </div>
+        <div><div class="stat-label">Draft Score</div><div style="font-size:10px;color:var(--text-faint);margin-top:2px;">latest run</div></div>
         <div class="stat-val" id="sidebarScore">—</div>
       </div>
 
       <div class="sb-footer">
-        <button class="sb-btn" onclick="resetApp()">Reset</button>
-        <button class="sb-btn primary" onclick="startNewRun()">New Run</button>
+        <button class="sb-btn primary" onclick="startNewRun()">+ New Case</button>
       </div>
     </div>
 
-    <!-- MAIN -->
     <div class="main">
       <div class="grain"></div>
-
       <div class="topbar">
-        <div class="status-pill">
-          <div class="status-led"></div>
-          <span id="topbarStatus">Select a mode and enter your case details</span>
-        </div>
-        <div class="rag-pill">⚡ RAG · dual-vector</div>
+        <div class="status-pill"><div class="status-led"></div><span id="topbarStatus">Ready to assist</span></div>
+        <div class="rag-pill">⚡ Dual-Vector RAG Active</div>
       </div>
-
       <div class="scroll-area" id="scrollArea">
-        <!-- Dynamic content rendered here -->
-      </div>
+        </div>
     </div>
   </div>
 </div>
@@ -505,816 +232,613 @@
 
 <script>
 // ────────────────────────────────────────────────
-// STATE
+// STATE & DATABASE
 // ────────────────────────────────────────────────
-let appState = {
-  mode: 'b2c',
-  step: 'input',
-  apiKey: '',
-  lastScore: null,
-  runCount: 0
+let appState = { 
+  mode: 'b2c', 
+  step: 'input', 
+  lastScore: 0,
+  maxStepReached: 0,
+  missingClauses: [],
+  currentDraft: "",
+  data: {},        // Stores Sender, Respondent, Facts, etc.
+  constRights: []  // Stores matched Constitutional Rights
 };
 
-const B2C_STEPS = [
-  { id:'input', label:'Case Facts', dot:'#888' },
-  { id:'rag',   label:'RAG Search', dot:'#52C47A' },
-  { id:'notice',label:'Notice Draft', dot:'#C44A1C' },
-  { id:'rights',label:'Constitutional Rights', dot:'#D4A017' }
-];
-const B2B_STEPS = [
-  { id:'upload', label:'Upload Petition', dot:'#888' },
-  { id:'search', label:'Precedent Search', dot:'#52C47A' },
-  { id:'score',  label:'Draft Score', dot:'#C44A1C' },
-  { id:'const',  label:'Constitutional Backing', dot:'#D4A017' }
-];
-
-// ────────────────────────────────────────────────
-// INIT
-// ────────────────────────────────────────────────
-function init() {
-  renderNav();
-  renderContent();
+// Database Schema includes: caseDetails (appState.data), constRights, content, score
+function getDB() { return JSON.parse(localStorage.getItem('vakeel_db')) || []; }
+function saveToDB(title, content, type, score, caseDetails, constRights) {
+  let db = getDB();
+  db.unshift({ 
+    id: Date.now(), 
+    date: new Date().toLocaleString(), 
+    title, 
+    content, 
+    type, 
+    score, 
+    caseDetails, 
+    constRights 
+  });
+  localStorage.setItem('vakeel_db', JSON.stringify(db));
 }
 
+// Constitutional Mapping Logic
+function getConstRights(category) {
+   const map = {
+     consumer: [
+       {num:'Article 21', title:'Right to Life & Personal Liberty', desc:'Includes protection from exploitation and right to healthy environment.'}, 
+       {num:'Article 14', title:'Right to Equality', desc:'No arbitrary discrimination or unfair trade practices by entities.'}
+     ],
+     employment: [
+       {num:'Article 21', title:'Right to Livelihood', desc:'The Supreme Court has held that right to livelihood is integral to right to life.'}, 
+       {num:'Article 16', title:'Equality of Opportunity', desc:'Protects against arbitrary employment practices in public sectors.'}
+     ],
+     property: [
+       {num:'Article 300A', title:'Right to Property', desc:'No person shall be deprived of his property save by authority of law.'}
+     ],
+     writ: [
+       {num:'Article 32 / 226', title:'Right to Constitutional Remedies', desc:'You have the right to approach the Supreme Court or High Court directly.'}, 
+       {num:'Article 14', title:'Right to Equality', desc:'State action must be fair, just and not arbitrary.'}
+     ],
+     cheque: [
+       {num:'Article 21', title:'Personal Liberty', desc:'Protection against arbitrary arrest in criminal proceedings related to financial fraud.'}
+     ]
+   };
+   return map[category] || map['consumer'];
+}
+
+const FLOW_STEPS = [
+  { id:'input', label:'Case Input', dot:'#888' },
+  { id:'rag',   label:'Legal Reasoning', dot:'#52C47A' },
+  { id:'draft', label:'Draft & Score', dot:'#C44A1C' },
+  { id:'const', label:'Constitutional Strategy', dot:'#D4A017' }
+];
+
+// ────────────────────────────────────────────────
+// INIT & NAVIGATION
+// ────────────────────────────────────────────────
+function init() { setMode('b2c'); }
+
 function setMode(mode) {
-  appState.mode = mode;
-  appState.step = mode === 'b2c' ? 'input' : 'upload';
-  document.getElementById('modeB2C').classList.toggle('active', mode === 'b2c');
-  document.getElementById('modeB2B').classList.toggle('active', mode === 'b2b');
-  document.getElementById('scoreCard').style.display = mode === 'b2b' ? 'flex' : 'none';
-  renderNav();
-  renderContent();
+  appState.mode = mode; 
+  startNewRun();
+}
+
+function startNewRun() { 
+  appState.step = 'input';
+  appState.maxStepReached = 0;
+  appState.lastScore = null; 
+  appState.missingClauses = [];
+  appState.data = {};
+  appState.constRights = [];
+  document.getElementById('modeB2C').classList.toggle('active', appState.mode === 'b2c');
+  document.getElementById('modeB2B').classList.toggle('active', appState.mode === 'b2b');
+  document.getElementById('scoreCard').style.display = 'none';
+  document.getElementById('sidebarScore').textContent = '—'; 
+  renderNav(); renderContent(); 
 }
 
 function renderNav() {
-  const steps = appState.mode === 'b2c' ? B2C_STEPS : B2B_STEPS;
-  const list = document.getElementById('navList');
-  list.innerHTML = steps.map(s => `
-    <div class="nav-item ${appState.step === s.id ? 'active' : ''}" onclick="goStep('${s.id}')">
-      <div class="nav-dot" style="background:${s.dot}"></div>
-      ${s.label}
-    </div>`).join('');
+  document.getElementById('navList').innerHTML = FLOW_STEPS.map((s, index) => {
+    let statusClass = '';
+    if (appState.step === s.id) statusClass = 'active';
+    else if (index <= appState.maxStepReached) statusClass = 'completed';
+    
+    return `
+    <div class="nav-item ${statusClass}" ${index <= appState.maxStepReached ? `onclick="goStep('${s.id}')"` : ''}>
+      <div class="nav-dot" style="background:${s.dot}"></div>${s.label}
+    </div>`;
+  }).join('');
 }
 
-function goStep(id) {
-  appState.step = id;
-  renderNav();
-  renderContent();
-}
-
-function resetApp() {
-  appState.step = appState.mode === 'b2c' ? 'input' : 'upload';
-  appState.lastScore = null;
-  document.getElementById('sidebarScore').textContent = '—';
-  renderNav();
-  renderContent();
-}
-
-function startNewRun() {
-  resetApp();
-}
-
-// ────────────────────────────────────────────────
-// CONTENT RENDERER
-// ────────────────────────────────────────────────
-function renderContent() {
-  const area = document.getElementById('scrollArea');
-  const mode = appState.mode;
-  const step = appState.step;
-  document.getElementById('titleText').textContent =
-    `vakeel.ai — ${mode === 'b2c' ? 'citizen notice drafting' : 'lawyer petition analysis'}`;
-  if (mode === 'b2c') renderB2C(area, step);
-  else renderB2B(area, step);
-}
-
-// ────────────────────────────────────────────────
-// B2C VIEWS
-// ────────────────────────────────────────────────
-function renderB2C(area, step) {
-  if (step === 'input') renderB2CInput(area);
-  else if (step === 'rag') renderB2CRag(area);
-  else if (step === 'notice') renderB2CNotice(area);
-  else if (step === 'rights') renderB2CRights(area);
-}
-
-function renderB2CInput(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 1 — Describe your legal situation';
-  area.innerHTML = `
-    <div class="sec-eyebrow">Phase 2 · Public Domain · Step 1</div>
-    <div class="sec-title">Tell us what happened</div>
-    <div class="alert info">⚡ Vakeel will draft a formal legal notice and identify any fundamental rights that protect you.</div>
-
-    <div class="field-group">
-      <div>
-        <div class="field-label">Your Name & Address</div>
-        <div class="field-row">
-          <input class="field-input" id="b2cName" placeholder="Full legal name">
-          <input class="field-input" id="b2cCity" placeholder="City, State">
-        </div>
-      </div>
-      <div>
-        <div class="field-label">Opposite Party (Respondent)</div>
-        <div class="field-row">
-          <input class="field-input" id="b2cRespondent" placeholder="Name / Company / Authority">
-          <select class="field-select" id="b2cCategory">
-            <option value="">Select dispute type</option>
-            <option value="consumer">Consumer Rights Violation</option>
-            <option value="employment">Employment / Labour Dispute</option>
-            <option value="property">Property / Tenancy Dispute</option>
-            <option value="police">Police Misconduct</option>
-            <option value="service">Deficiency of Service</option>
-            <option value="cheque">Cheque Bounce / Financial Fraud</option>
-            <option value="harassment">Harassment / Discrimination</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-      </div>
-      <div>
-        <div class="field-label">Describe your situation in plain language</div>
-        <textarea class="field-textarea tall" id="b2cFacts" placeholder="Tell us what happened — dates, amounts, communications, what you were promised vs what happened. The more detail you provide, the stronger the notice."></textarea>
-      </div>
-      <div>
-        <div class="field-label">Relief Sought (what do you want?)</div>
-        <input class="field-input" id="b2cRelief" placeholder="e.g. Refund of ₹45,000, Reinstatement, Compensation, Apology...">
-      </div>
-    </div>
-    <div class="action-row">
-      <button class="btn-primary" onclick="b2cRunRAG()">
-        <span>Analyse & Draft Notice</span> →
-      </button>
-      <span style="font-size:11px;color:rgba(244,239,228,0.3);">Runs dual RAG · constitutional search included</span>
-    </div>
-  `;
-}
-
-function renderB2CRag(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 2 — Dual RAG retrieval in progress…';
-  area.innerHTML = `
-    <div class="sec-eyebrow">Phase 2 · Public Domain · Step 2</div>
-    <div class="sec-title">Dual Vector Search</div>
-    <div class="dual-lanes">
-      <div class="lane">
-        <div class="lane-header">Search A — Statutes & Templates</div>
-        <div class="tag-row">
-          <span class="tag tag-s">type:"statute"</span>
-          <span class="tag tag-s">notice_template</span>
-          <span class="tag tag-p">procedural_law</span>
-        </div>
-        <div style="margin-top:10px;font-size:11px;color:rgba(244,239,228,0.4);font-style:italic;font-family:Lora,serif;">Retrieving applicable Acts, rules & pre-approved notice formats…</div>
-      </div>
-      <div class="lane const-lane">
-        <div class="lane-header">Search B — Constitutional Filter</div>
-        <div class="tag-row">
-          <span class="tag tag-c">type:"constitutional_law"</span>
-          <span class="tag tag-c">fundamental_rights</span>
-        </div>
-        <div style="margin-top:10px;font-size:11px;color:rgba(240,192,64,0.5);font-style:italic;font-family:Lora,serif;">Cross-referencing Part III of the Constitution for applicable rights…</div>
-      </div>
-    </div>
-    <div class="card" style="text-align:center;padding:30px;">
-      <div class="spinner" style="width:22px;height:22px;border-width:3px;margin:0 auto 14px;"></div>
-      <div style="font-size:12px;color:rgba(244,239,228,0.5);" id="ragStatusMsg">Connecting to vector database…</div>
-    </div>
-  `;
-  // Simulate RAG + then call API
-  let msgs = ['Connecting to vector database…','Embedding query vectors…','Searching statute index…','Filtering constitutional_law metadata…','Merging retrieval context…','Sending to LLM…'];
-  let i = 0;
-  const iv = setInterval(() => {
-    const el = document.getElementById('ragStatusMsg');
-    if (!el) { clearInterval(iv); return; }
-    el.textContent = msgs[Math.min(i, msgs.length-1)];
-    i++;
-    if (i >= msgs.length) { clearInterval(iv); goStep('notice'); }
-  }, 600);
-}
-
-async function b2cRunRAG() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  const name = document.getElementById('b2cName')?.value.trim() || '';
-  const city = document.getElementById('b2cCity')?.value.trim() || '';
-  const respondent = document.getElementById('b2cRespondent')?.value.trim() || '';
-  const category = document.getElementById('b2cCategory')?.value || '';
-  const facts = document.getElementById('b2cFacts')?.value.trim() || '';
-  const relief = document.getElementById('b2cRelief')?.value.trim() || '';
-
-  if (!facts) { alert('Please describe your situation.'); return; }
-  if (!key) { alert('Please enter your Anthropic API key in the sidebar.'); return; }
-
-  appState.b2cData = { key, name, city, respondent, category, facts, relief };
-  goStep('rag');
-  setTimeout(() => callB2CNotice(), 3800);
-}
-
-async function callB2CNotice() {
-  const d = appState.b2cData;
-  const prompt = `You are Vakeel AI, an expert Indian legal assistant. You have retrieved the following via RAG:
-- Relevant statutes and procedural rules for dispute type: "${d.category}"
-- Constitutional fundamental rights from Part III (Articles 12–35) that may apply
-
-USER CASE:
-Name: ${d.name || 'Not provided'} | City: ${d.city || 'Not provided'}
-Respondent: ${d.respondent || 'Not provided'}
-Dispute type: ${d.category}
-Facts: ${d.facts}
-Relief sought: ${d.relief || 'Not specified'}
-
-TASK: Draft a formal Legal Notice under Indian law. Structure it as:
-1. LEGAL NOTICE header with date and parties
-2. Background & Facts (numbered paragraphs)
-3. Legal Violations (cite relevant Acts/Sections)
-4. Constitutional Rights Invoked (which Articles protect the sender — be specific)
-5. Relief Demanded with time limit (15 days)
-6. Consequences of non-compliance
-7. Closing signature block
-
-Be formal, precise, and cite real Indian statutes (Consumer Protection Act 2019, IPC, CPC, Constitution of India etc.). After the notice, add a section titled "CONSTITUTIONAL RIGHTS SUMMARY" that explains in plain language which fundamental rights apply and why.`;
-
-  appState.b2cPrompt = prompt;
-  goStep('notice');
-}
-
-function renderB2CNotice(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 3 — Generating legal notice…';
-  area.innerHTML = `
-    <div class="sec-eyebrow">Phase 2 · Public Domain · Step 3</div>
-    <div class="sec-title">Generated Legal Notice</div>
-    <div class="card">
-      <div class="notice-header">
-        <span>LEGAL NOTICE — AUTO-GENERATED DRAFT</span>
-        <button class="btn-secondary" onclick="copyNotice()" style="padding:4px 10px;font-size:11px;">Copy</button>
-      </div>
-      <div class="output-box" id="noticeOutput"><span class="output-placeholder">Drafting your legal notice using retrieved statutes and constitutional provisions…</span></div>
-    </div>
-    <div class="action-row" style="margin-top:6px;">
-      <button class="btn-primary" onclick="goStep('rights')">View Constitutional Rights →</button>
-      <button class="btn-secondary" onclick="goStep('input')">← Edit Details</button>
-    </div>
-  `;
-  if (appState.b2cData) streamB2CNotice();
-}
-
-async function streamB2CNotice() {
-  const key = appState.b2cData.key;
-  const outputEl = document.getElementById('noticeOutput');
-  if (!outputEl) return;
-  outputEl.innerHTML = '<span class="cursor"></span>';
-  let fullText = '';
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 2000,
-        stream: true,
-        messages: [{ role: 'user', content: appState.b2cPrompt }]
-      })
-    });
-    if (!resp.ok) { throw new Error(await resp.text()); }
-    const reader = resp.body.getReader();
-    const dec = new TextDecoder();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const chunk = dec.decode(value);
-      const lines = chunk.split('\n').filter(l => l.startsWith('data: '));
-      for (const line of lines) {
-        const data = line.slice(6);
-        if (data === '[DONE]') break;
-        try {
-          const parsed = JSON.parse(data);
-          if (parsed.type === 'content_block_delta' && parsed.delta?.text) {
-            fullText += parsed.delta.text;
-            const el = document.getElementById('noticeOutput');
-            if (el) el.innerHTML = escapeHtml(fullText) + '<span class="cursor"></span>';
-          }
-        } catch {}
-      }
-    }
-    appState.noticeText = fullText;
-    const el = document.getElementById('noticeOutput');
-    if (el) el.innerHTML = escapeHtml(fullText);
-    document.getElementById('topbarStatus').textContent = 'Step 3 — Notice generated ✓';
-  } catch(e) {
-    const el = document.getElementById('noticeOutput');
-    if (el) el.innerHTML = `<span style="color:#F0A870;">Error: ${e.message}</span>`;
+function goStep(id) { 
+  const targetIndex = FLOW_STEPS.findIndex(s => s.id === id);
+  if (targetIndex <= appState.maxStepReached) {
+    appState.step = id; 
+    renderNav(); 
+    renderContent(); 
   }
 }
 
-function renderB2CRights(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 4 — Constitutional rights analysis';
-  area.innerHTML = `
-    <div class="sec-eyebrow">Phase 2 · Public Domain · Step 4</div>
-    <div class="sec-title">Constitutional Rights Identified</div>
-    <div class="alert gold">⚖ The following fundamental rights from the Constitution of India (Part III) were retrieved and matched to your case.</div>
-    <div class="article-list" id="articleList">
-      <div style="text-align:center;padding:20px;"><div class="spinner" style="margin:0 auto;"></div></div>
-    </div>
-    <hr class="divider">
-    <div class="card">
-      <div class="field-label" style="margin-bottom:8px;">Ask a follow-up question</div>
-      <textarea class="field-textarea" id="b2cFollowup" placeholder="E.g. Can I file a writ petition? Which court has jurisdiction? What is the time limit?" style="min-height:80px;"></textarea>
-      <div style="margin-top:10px;">
-        <button class="btn-primary" onclick="b2cFollowupAsk()">Ask Vakeel →</button>
-      </div>
-    </div>
-    <div id="followupOutput"></div>
-  `;
-  renderConstitutionalArticles(area);
-}
-
-function renderConstitutionalArticles() {
-  if (!appState.b2cData) return;
-  const category = appState.b2cData.category;
-  // Smart article mapping based on dispute type
-  const articleMap = {
-    consumer: [
-      { num:'Article 21', title:'Right to Life & Personal Liberty', desc:'Courts have interpreted Art. 21 to include right to livelihood and protection from consumer exploitation. Relevant for defective products causing harm.' },
-      { num:'Article 19(1)(g)', title:'Right to Trade & Profession', desc:'Protects consumers from monopolistic or unfair trade practices that restrict market access.' },
-      { num:'Article 14', title:'Right to Equality', desc:'No entity may discriminate against consumers without reasonable classification.' }
-    ],
-    employment: [
-      { num:'Article 21', title:'Right to Life & Livelihood', desc:'The Supreme Court in Olga Tellis v BMC held that the right to livelihood is integral to Art. 21. Wrongful termination violates this right.' },
-      { num:'Article 23', title:'Prohibition of Forced Labour', desc:'Applies to cases of bonded labour, wage theft, or compulsory overtime without compensation.' },
-      { num:'Article 16', title:'Equality of Opportunity in Employment', desc:'Protects from arbitrary and discriminatory employment practices by state employers.' }
-    ],
-    police: [
-      { num:'Article 22', title:'Protection Against Arbitrary Arrest', desc:'Guarantees the right to be informed of grounds of arrest, right to legal counsel, and production before a magistrate within 24 hours.' },
-      { num:'Article 20', title:'Protection in Respect of Conviction', desc:'Protects against double jeopardy, self-incrimination, and ex post facto laws.' },
-      { num:'Article 21', title:'Right against Custodial Torture', desc:'D.K. Basu v State of WB: Police must follow strict guidelines; custodial violence is unconstitutional.' }
-    ],
-    default: [
-      { num:'Article 21', title:'Right to Life & Personal Liberty', desc:'The most expansive fundamental right — courts have read dozens of rights into Art. 21 including right to health, livelihood, education, and dignified existence.' },
-      { num:'Article 14', title:'Right to Equality', desc:'The State and its instrumentalities cannot act arbitrarily. Any decision affecting your rights must be fair, just, and reasonable.' },
-      { num:'Article 32 / 226', title:'Right to Constitutional Remedies', desc:'You have the right to approach the Supreme Court (Art. 32) or High Court (Art. 226) directly for enforcement of fundamental rights via writ petition.' }
-    ]
-  };
-  const articles = articleMap[category] || articleMap.default;
-  document.getElementById('articleList').innerHTML = articles.map(a => `
-    <div class="article-item">
-      <div class="article-num">${a.num}</div>
-      <div class="article-title">${a.title}</div>
-      <div class="article-desc">${a.desc}</div>
-    </div>`).join('');
-}
-
-async function b2cFollowupAsk() {
-  const key = appState.b2cData?.key;
-  const q = document.getElementById('b2cFollowup')?.value.trim();
-  if (!q) return;
-  if (!key) { alert('API key required'); return; }
-  const outDiv = document.getElementById('followupOutput');
-  outDiv.innerHTML = `<div class="card" style="margin-top:12px;"><div class="output-box" id="followupText"><span class="cursor"></span></div></div>`;
-  const prompt = `You are Vakeel AI, an Indian legal assistant. The user has a follow-up question about their legal case.
-Context: ${appState.b2cData?.facts || ''}
-Question: ${q}
-Give a clear, practical answer citing relevant Indian laws and constitutional provisions. Be concise (max 200 words).`;
-  await streamToElement('followupText', key, prompt);
+function renderContent() {
+  const area = document.getElementById('scrollArea');
+  const step = appState.step;
+  if (step === 'input') renderInput(area);
+  else if (step === 'rag') renderRag(area);
+  else if (step === 'draft') renderDraft(area);
+  else if (step === 'const') renderConst(area);
 }
 
 // ────────────────────────────────────────────────
-// B2B VIEWS
+// STEP 1: UNIVERSAL INPUT
 // ────────────────────────────────────────────────
-function renderB2B(area, step) {
-  if (step === 'upload') renderB2BUpload(area);
-  else if (step === 'search') renderB2BSearch(area);
-  else if (step === 'score') renderB2BScore(area);
-  else if (step === 'const') renderB2BConst(area);
-}
-
-function renderB2BUpload(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 1 — Upload or input petition details';
+function renderInput(area) {
+  const isLawyer = appState.mode === 'b2b';
+  document.getElementById('topbarStatus').textContent = `Step 1 — Define your case parameters (${isLawyer ? 'Lawyer' : 'Citizen'})`;
+  
   area.innerHTML = `
-    <div class="sec-eyebrow">Phase 3 · Lawyer Domain · Step 1</div>
-    <div class="sec-title">Petition Input & Analysis</div>
-    <div class="alert info">🏛 Vakeel will score your draft, find binding precedents, flag missing clauses, and suggest constitutional backing.</div>
+    <div class="sec-eyebrow">Phase 1 · Case Intake</div>
+    <div class="sec-title">${isLawyer ? 'Petition Drafter & Analyzer' : 'Legal Notice & Complaint Drafter'}</div>
+    
     <div class="field-group">
       <div>
-        <div class="field-label">Case Type & Forum</div>
-        <div class="field-row">
-          <select class="field-select" id="b2bForum">
-            <option value="">Select forum</option>
-            <option value="district">District Court</option>
-            <option value="hc">High Court</option>
-            <option value="sc">Supreme Court</option>
-            <option value="consumer">Consumer Forum</option>
-            <option value="labour">Labour Court / Tribunal</option>
-            <option value="ngt">NGT / Tribunal</option>
-          </select>
-          <select class="field-select" id="b2bCaseType">
-            <option value="">Select case type</option>
-            <option value="writ">Writ Petition (Art. 32 / 226)</option>
-            <option value="civil">Civil Suit</option>
-            <option value="criminal">Criminal Matter</option>
-            <option value="arbitration">Arbitration / Commercial</option>
-            <option value="consumer">Consumer Complaint</option>
-            <option value="pil">Public Interest Litigation</option>
-          </select>
+        <div class="field-label">Document Type</div>
+        <select class="field-select" id="docType" style="border-color: var(--gold-3); color: var(--gold-3); font-weight:bold;" onchange="toggleDropzone()">
+          ${isLawyer ? `
+            <option value="draft_petition">Create New Petition from Facts</option>
+            <option value="analyze_petition" selected>Analyze & Score Existing Petition</option>
+          ` : `
+            <option value="notice">Draft a Formal Legal Notice</option>
+            <option value="petition">Draft a Consumer / Civil Complaint</option>
+          `}
+        </select>
+      </div>
+
+      <div class="field-row">
+        <div>
+          <div class="field-label">Petitioner / Sender</div>
+          <input class="field-input" id="inpSender" placeholder="${isLawyer ? 'Client Name' : 'Your Name'}" value="${appState.data.sender || ''}">
+        </div>
+        <div>
+          <div class="field-label">Respondent / Opposite Party</div>
+          <input class="field-input" id="inpRespondent" placeholder="Name or Company" value="${appState.data.respondent || ''}">
         </div>
       </div>
+
       <div>
-        <div class="field-label">Client & Opposite Party</div>
-        <div class="field-row">
-          <input class="field-input" id="b2bClient" placeholder="Client / Petitioner name">
-          <input class="field-input" id="b2bOpposite" placeholder="Respondent / Opposite party">
+        <div class="field-label">Dispute Category / Forum</div>
+        <select class="field-select" id="inpCategory">
+          <option value="consumer" ${appState.data.category === 'consumer' ? 'selected':''}>Consumer Rights / Deficiency of Service</option>
+          <option value="employment" ${appState.data.category === 'employment' ? 'selected':''}>Employment / Labour</option>
+          <option value="property" ${appState.data.category === 'property' ? 'selected':''}>Property / Tenancy</option>
+          <option value="writ" ${appState.data.category === 'writ' ? 'selected':''}>Constitutional / Writ (High Court/Supreme Court)</option>
+          <option value="cheque" ${appState.data.category === 'cheque' ? 'selected':''}>Financial Fraud / Cheque Bounce</option>
+        </select>
+      </div>
+
+      <div id="uploadArea" style="${isLawyer && (!appState.data.type || appState.data.type === 'analyze_petition') ? 'display:block;' : 'display:none;'}">
+        <div class="field-label">Upload Petition Draft</div>
+        <div id="dropzone" class="dropzone" onclick="document.getElementById('fileInput').click()" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)" ondrop="handleDrop(event)">
+          <span id="dropText">📄 Drag & Drop Petition (PDF/DOCX) or click to browse</span>
+          <input type="file" id="fileInput" hidden onchange="handleFileUpload(event)">
         </div>
       </div>
+
       <div>
-        <div class="field-label">Petition / Draft Content</div>
-        <textarea class="field-textarea tall" id="b2bPetition" placeholder="Paste your petition draft here — or describe the facts and legal arguments. Include the prayer clause if available."></textarea>
-      </div>
-      <div>
-        <div class="field-label">Currently Cited Sections / Acts (optional)</div>
-        <input class="field-input" id="b2bCited" placeholder="e.g. S.138 NI Act, S.420 IPC, Art. 21 Constitution…">
+        <div class="field-label" id="factsLabel">Facts & Background (Or Extracted Text)</div>
+        <textarea class="field-textarea tall" id="inpFacts" placeholder="Describe the timeline, amounts, violations, and what relief you are seeking...">${appState.data.facts || ''}</textarea>
       </div>
     </div>
+
     <div class="action-row">
-      <button class="btn-primary" onclick="b2bRunAnalysis()">
-        <span>Run Full Analysis</span> →
-      </button>
-      <span style="font-size:11px;color:rgba(244,239,228,0.3);">Score · Precedents · Constitutional backing</span>
+      <button class="btn-primary" onclick="runPipeline()">Run Pipeline →</button>
+      <span style="font-size:11px;color:rgba(244,239,228,0.3);">Executes Drafter, Precedent Search, and Scorer</span>
     </div>
   `;
 }
 
-async function b2bRunAnalysis() {
-  const key = document.getElementById('apiKeyInput').value.trim();
-  const forum = document.getElementById('b2bForum')?.value || '';
-  const caseType = document.getElementById('b2bCaseType')?.value || '';
-  const client = document.getElementById('b2bClient')?.value.trim() || '';
-  const opposite = document.getElementById('b2bOpposite')?.value.trim() || '';
-  const petition = document.getElementById('b2bPetition')?.value.trim() || '';
-  const cited = document.getElementById('b2bCited')?.value.trim() || '';
-
-  if (!petition) { alert('Please enter the petition content.'); return; }
-  if (!key) { alert('Please enter your Anthropic API key.'); return; }
-
-  appState.b2bData = { key, forum, caseType, client, opposite, petition, cited };
-  goStep('search');
-  setTimeout(() => { goStep('score'); }, 3500);
+function toggleDropzone() {
+  const dt = document.getElementById('docType');
+  const ua = document.getElementById('uploadArea');
+  const fl = document.getElementById('factsLabel');
+  if(ua) {
+    if (dt && dt.value === 'analyze_petition') {
+      ua.style.display = 'block';
+      fl.textContent = 'Extracted Petition Text (Editable)';
+    } else {
+      ua.style.display = 'none';
+      fl.textContent = 'Facts & Background';
+    }
+  }
 }
 
-function renderB2BSearch(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 2 — Parallel precedent & constitutional search…';
+// Drag & Drop
+function handleDragOver(e) { e.preventDefault(); document.getElementById('dropzone').classList.add('dragover'); }
+function handleDragLeave(e) { e.preventDefault(); document.getElementById('dropzone').classList.remove('dragover'); }
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropzone').classList.remove('dragover');
+  if (e.dataTransfer.files && e.dataTransfer.files[0]) simulateExtraction(e.dataTransfer.files[0].name);
+}
+function handleFileUpload(e) {
+  if (e.target.files && e.target.files[0]) simulateExtraction(e.target.files[0].name);
+}
+function simulateExtraction(filename) {
+  const dt = document.getElementById('dropText');
+  dt.innerHTML = `<div class="spinner" style="width:12px;height:12px;border-width:2px;border-top-color:var(--gold-3);margin-right:6px;"></div> Extracting...`;
+  setTimeout(() => {
+    document.getElementById('inpFacts').value = `[Extracted from: ${filename}]\n\nIN THE HON'BLE COURT...\n\nThe Petitioner humbly submits that the Respondent failed to fulfill obligations...`;
+    dt.innerHTML = `<span style="color:var(--green-3);">✅ Extraction Complete!</span>`;
+  }, 1200);
+}
+
+function runPipeline() {
+  const facts = document.getElementById('inpFacts')?.value.trim();
+  if (!facts) { alert('Please provide case facts or upload a draft.'); return; }
+  
+  appState.data = {
+    model: document.getElementById('aiModelSelect').value,
+    type: document.getElementById('docType').value,
+    sender: document.getElementById('inpSender')?.value || 'Petitioner',
+    respondent: document.getElementById('inpRespondent')?.value || 'Respondent',
+    category: document.getElementById('inpCategory')?.value || 'consumer',
+    facts: facts
+  };
+  
+  appState.maxStepReached = 1;
+  goStep('rag');
+  setTimeout(() => { 
+    appState.maxStepReached = 2;
+    goStep('draft'); 
+  }, 3000);
+}
+
+// ────────────────────────────────────────────────
+// STEP 2: RAG
+// ────────────────────────────────────────────────
+function renderRag(area) {
+  document.getElementById('topbarStatus').textContent = 'Step 2 — Dual Vector Search in Progress';
   area.innerHTML = `
-    <div class="sec-eyebrow">Phase 3 · Lawyer Domain · Step 2</div>
-    <div class="sec-title">Parallel Vector Search</div>
+    <div class="sec-eyebrow">Phase 2 · Search</div>
+    <div class="sec-title">Retrieval Augmented Generation</div>
     <div class="dual-lanes">
-      <div class="lane">
-        <div class="lane-header">Search A — Precedent Index</div>
-        <div class="tag-row">
-          <span class="tag tag-p">type:"case_law"</span>
-          <span class="tag tag-p">binding_precedents</span>
-          <span class="tag tag-s">similar_facts</span>
-        </div>
-        <div style="margin-top:10px;font-size:11px;color:rgba(244,239,228,0.4);font-style:italic;font-family:Lora,serif;">Searching judgment corpus for factual similarity and legal principle alignment…</div>
-      </div>
-      <div class="lane const-lane">
-        <div class="lane-header">Search B — Constitutional Index</div>
-        <div class="tag-row">
-          <span class="tag tag-c">type:"constitutional_law"</span>
-          <span class="tag tag-c">writs</span>
-          <span class="tag tag-c">articles</span>
-        </div>
-        <div style="margin-top:10px;font-size:11px;color:rgba(240,192,64,0.5);font-style:italic;font-family:Lora,serif;">Cross-referencing petition facts against constitutional provisions and landmark writs…</div>
-      </div>
+      <div class="lane"><div class="lane-header">Search A — Case Law</div><div class="tag-row"><span class="tag tag-p">statutes</span><span class="tag tag-s">precedents</span></div><div style="margin-top:10px;font-size:11px;color:rgba(244,239,228,0.4);font-style:italic;">Querying corpus for matching facts...</div></div>
+      <div class="lane const-lane"><div class="lane-header">Search B — Constitutional Filter</div><div class="tag-row"><span class="tag tag-c">fundamental_rights</span><span class="tag tag-c">writs</span></div><div style="margin-top:10px;font-size:11px;color:rgba(240,192,64,0.5);font-style:italic;">Cross-referencing Part III protections...</div></div>
     </div>
-    <div class="card" style="text-align:center;padding:30px;">
-      <div class="spinner" style="width:22px;height:22px;border-width:3px;margin:0 auto 14px;"></div>
-      <div style="font-size:12px;color:rgba(244,239,228,0.5);" id="searchMsg">Initialising dual search pipeline…</div>
-    </div>
+    <div class="card" style="text-align:center;padding:30px;"><div class="spinner" style="width:22px;height:22px;border-width:3px;margin:0 auto 14px;"></div><div style="font-size:12px;color:rgba(244,239,228,0.5);" id="ragMsg">Embedding vectors and fetching precedents...</div></div>
   `;
-  const msgs = ['Initialising dual search pipeline…','Vectorising petition content…','Searching precedent index…','Constitutional metadata filter active…','Ranking results by similarity…','Merging into LLM context…'];
-  let i = 0;
-  const iv = setInterval(() => {
-    const el = document.getElementById('searchMsg');
-    if (!el) { clearInterval(iv); return; }
-    el.textContent = msgs[Math.min(i, msgs.length-1)];
-    i++;
-    if (i >= msgs.length) clearInterval(iv);
-  }, 550);
 }
 
-function renderB2BScore(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 3 — Scoring draft & generating analysis…';
+// ────────────────────────────────────────────────
+// STEP 3: DRAFT, SCORE & AUTO-FIX
+// ────────────────────────────────────────────────
+function renderDraft(area) {
+  document.getElementById('topbarStatus').textContent = 'Step 3 — Document Generation & Scoring';
+  const d = appState.data;
+  const isAnalysis = d.type === 'analyze_petition';
+  const docTitle = isAnalysis ? 'Petition Analysis' : (d.type === 'notice' ? 'Legal Notice' : 'Court Petition');
+
   area.innerHTML = `
-    <div class="sec-eyebrow">Phase 3 · Lawyer Domain · Step 3</div>
-    <div class="sec-title">Draft Score & Analysis</div>
+    <div class="sec-eyebrow">Phase 3 · Generation</div>
+    <div class="sec-title">AI Draft & Score</div>
+    
     <div class="score-grid">
-      <div class="score-tile green">
-        <div class="tile-label">Draft Score</div>
-        <div class="tile-val green" id="tileScore">—</div>
-        <div class="progress-bar"><div class="progress-fill" id="scoreBar" style="width:0%"></div></div>
-      </div>
-      <div class="score-tile red">
-        <div class="tile-label">Missing Clauses</div>
-        <div class="tile-val red" id="tileMissing">—</div>
-      </div>
-      <div class="score-tile">
-        <div class="tile-label">Precedents Found</div>
-        <div class="tile-val" id="tilePrecedents">—</div>
-      </div>
-      <div class="score-tile gold">
-        <div class="tile-label">Constitutional Articles</div>
-        <div class="tile-val gold" id="tileArticles">—</div>
-      </div>
+      <div class="score-tile green"><div class="tile-label">Draft Score</div><div class="tile-val green" id="tileScore">${appState.lastScore || '—'}</div><div class="progress-bar"><div class="progress-fill" id="scoreBar" style="width:${appState.lastScore||0}%"></div></div></div>
+      <div class="score-tile red"><div class="tile-label" id="missingLabel">Missing Clauses</div><div class="tile-val red" id="tileMissing">—</div></div>
+      <div class="score-tile"><div class="tile-label">Precedents</div><div class="tile-val">3</div></div>
+      <div class="score-tile gold"><div class="tile-label">Rights Found</div><div class="tile-val gold">${appState.constRights.length || 2}</div></div>
     </div>
 
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('analysis')">Full Analysis</button>
-      <button class="tab-btn" onclick="switchTab('precedents')">Precedents</button>
-      <button class="tab-btn" onclick="switchTab('clauses')">Missing Clauses</button>
-    </div>
+    <div id="missingClausesContainer"></div>
 
-    <div class="tab-panel active" id="tab-analysis">
-      <div class="output-box" id="analysisOutput"><span class="output-placeholder">Generating AI-powered petition analysis…</span></div>
-    </div>
-    <div class="tab-panel" id="tab-precedents">
-      <div class="precedent-list" id="precedentList"><div style="text-align:center;padding:20px;"><div class="spinner" style="margin:0 auto;"></div></div></div>
-    </div>
-    <div class="tab-panel" id="tab-clauses">
-      <div id="clauseList"><div style="text-align:center;padding:20px;"><div class="spinner" style="margin:0 auto;"></div></div></div>
+    <div class="card" style="position:relative; margin-top:16px;">
+      <div class="notice-header">
+        <span>${docTitle} — Powered by ${d.model}</span>
+        <div><button class="btn-pdf" onclick="generatePDF()">📥 Download PDF</button></div>
+      </div>
+      <div id="pdfTarget" style="background:transparent; padding: 10px; position: relative;">
+         <div class="output-box" id="docOutput"><span class="output-placeholder">Loading document...</span></div>
+         <div class="edit-badge">✏️ Edit Mode Active</div>
+      </div>
     </div>
 
     <div class="action-row" style="margin-top:16px;">
-      <button class="btn-primary" onclick="goStep('const')">Constitutional Backing →</button>
-      <button class="btn-secondary" onclick="goStep('upload')">← Revise Petition</button>
+      <button class="btn-primary" onclick="goToConst()">View Constitutional Strategy →</button>
     </div>
   `;
-  if (appState.b2bData) runB2BAnalysis();
+
+  if (appState.loadedFromDB) {
+    document.getElementById('docOutput').innerHTML = appState.currentDraft;
+    document.getElementById('docOutput').setAttribute("contenteditable", "true");
+    document.getElementById('tileMissing').textContent = "0"; 
+    document.getElementById('missingLabel').textContent = "Saved State";
+    document.getElementById('tileMissing').parentElement.className = "score-tile";
+    document.getElementById('tileMissing').className = "tile-val";
+    appState.loadedFromDB = false; 
+  } else {
+    generateNewDraftAndScore(isAnalysis, d);
+  }
 }
 
-function switchTab(id) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  document.querySelector(`[onclick="switchTab('${id}')"]`).classList.add('active');
-  const panel = document.getElementById(`tab-${id}`);
-  if (panel) panel.classList.add('active');
+async function generateNewDraftAndScore(isAnalysis, d) {
+  let baseScore = isAnalysis ? 74 : (d.type === 'notice' ? 92 : 88);
+  
+  // Set Constitutional Rights in state based on Category
+  appState.constRights = getConstRights(d.category);
+
+  if (isAnalysis || d.type === 'draft_petition') {
+    appState.missingClauses = [
+      { id: 'limitation', name: 'Limitation Clause', desc: 'Fails to explicitly state that the cause of action arose within the prescribed limitation period.', fixText: 'That the cause of action arose within the prescribed period of limitation, and the petition is not barred by time.' },
+      { id: 'exhaustion', name: 'Alternative Remedy', desc: 'Writ petitions must state no other efficacious remedy exists.', fixText: 'That the Petitioner has exhausted all alternative and efficacious legal remedies available, and therefore approaches this Hon\'ble Court.' }
+    ];
+  } else {
+    appState.missingClauses = [];
+  }
+
+  let mockText = isAnalysis 
+    ? `[Analysis by ${d.model}]\n\nSTRENGTHS:\nThe factual matrix provided clearly establishes the grievance between ${d.sender} and ${d.respondent}.\n\nWEAKNESSES:\nYour draft is missing key procedural clauses required for admission.\n\nRECOMMENDATION:\nUse the Auto-Fix buttons above to insert the missing legal language, then review the final document.`
+    : `IN THE HON'BLE COURT / FORUM\n\nIN THE MATTER OF:\n${d.sender} ... PETITIONER\nVERSUS\n${d.respondent} ... RESPONDENT\n\nPETITION UNDER THE RELEVANT STATUTES FOR ${d.category.toUpperCase()}\n\nMOST RESPECTFULLY SHOWETH:\n\n1. That the Petitioner is a law-abiding citizen and the Respondent is ${d.respondent}.\n\n2. BRIEF FACTS: ${d.facts}\n\n3. CAUSE OF ACTION: The cause of action arose when the Respondent committed the aforementioned acts.\n\n4. JURISDICTION: This Hon'ble Court has the territorial and pecuniary jurisdiction to try this matter.\n\nPRAYER:\nIn view of the above, it is most respectfully prayed that this Hon'ble Court may be pleased to:\na) Grant relief to the Petitioner as deemed fit.\n\nTHROUGH COUNSEL\nDate: ${new Date().toLocaleDateString()}`;
+
+  if(d.type === 'notice') {
+      mockText = `LEGAL NOTICE\nDate: ${new Date().toLocaleDateString()}\nTo, ${d.respondent}\nFrom, ${d.sender}\n\nSUBJECT: Legal Notice regarding ${d.category} violation.\n\nUnder instructions from my client, I serve you with the following notice:\n\n1. That the facts are: ${d.facts}\n2. You are called upon to rectify this and provide immediate relief within 15 days. Failing compliance, my client will initiate proceedings entirely at your risk and cost.\n\n[Signature]\nAdvocate for ${d.sender}`;
+  }
+
+  await mockStreamText(mockText, 'docOutput', 10);
+  document.getElementById('docOutput').setAttribute("contenteditable", "true");
+  
+  appState.lastScore = baseScore;
+  let v = 0;
+  const iv = setInterval(() => {
+    v += 2; if(v > baseScore) v = baseScore;
+    document.getElementById('tileScore').textContent = v;
+    document.getElementById('scoreBar').style.width = v + '%';
+    if (v === baseScore) {
+      clearInterval(iv);
+      renderMissingClausesUI();
+      // Auto-save generation WITH Case Details & Const Rights
+      saveToDB(
+        isAnalysis ? 'Analysis' : (d.type==='notice'?'Notice':'Petition'), 
+        document.getElementById('docOutput').innerHTML, 
+        d.type, 
+        baseScore,
+        appState.data,        // The input case details
+        appState.constRights  // The identified rights
+      );
+    }
+  }, 20);
 }
 
-async function runB2BAnalysis() {
-  const d = appState.b2bData;
-  const prompt = `You are Vakeel AI, a senior Indian legal AI assistant. Analyse the following petition draft using retrieved precedents and constitutional provisions.
+function renderMissingClausesUI() {
+  const missingCount = appState.missingClauses.length;
+  const tileMissing = document.getElementById('tileMissing');
+  tileMissing.textContent = missingCount;
+  
+  const redTile = tileMissing.parentElement;
+  if(missingCount === 0) {
+    redTile.className = "score-tile green";
+    tileMissing.className = "tile-val green";
+    document.getElementById('missingLabel').textContent = "All Clauses Present";
+  }
 
-PETITION DETAILS:
-Forum: ${d.forum} | Case Type: ${d.caseType}
-Petitioner: ${d.client} vs ${d.opposite}
-Currently cited: ${d.cited || 'None specified'}
-
-PETITION CONTENT:
-${d.petition}
-
-Provide a comprehensive analysis in this EXACT JSON structure (respond with JSON only, no markdown):
-{
-  "score": <integer 0-100>,
-  "missing_count": <integer>,
-  "precedent_count": <integer>,
-  "article_count": <integer>,
-  "analysis": "<detailed paragraph analysis of the petition's strengths and weaknesses, legal soundness, procedural compliance, and overall assessment>",
-  "missing_clauses": [
-    {"clause": "<clause name>", "reason": "<why it's needed>"},
-    ...
-  ],
-  "precedents": [
-    {"name": "<case name>", "citation": "<AIR/SCC citation>", "court": "<court>", "year": <year>, "relevance": "<why relevant>", "strength": <integer 60-99>},
-    ...
-  ]
-}
-Provide exactly 4-6 precedents and 3-5 missing clauses. Be realistic and cite real Indian landmark cases where applicable.`;
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': d.key, 'anthropic-version': '2023-06-01' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 2000, messages: [{ role:'user', content: prompt }] })
-    });
-    const data = await resp.json();
-    const text = data.content?.[0]?.text || '{}';
-    let parsed;
-    try { parsed = JSON.parse(text.replace(/```json|```/g,'')); }
-    catch { parsed = { score: 72, missing_count: 3, precedent_count: 5, article_count: 4, analysis: text, missing_clauses: [], precedents: [] }; }
-
-    // Animate score
-    const score = Math.min(100, Math.max(0, parseInt(parsed.score) || 70));
-    appState.lastScore = score;
-    appState.b2bResult = parsed;
-    document.getElementById('sidebarScore').textContent = score;
-    document.getElementById('scoreCard').style.display = 'flex';
-    let v = 0;
-    const iv = setInterval(() => {
-      v = Math.min(v + 2, score);
-      const el = document.getElementById('tileScore');
-      if (el) el.textContent = v;
-      const bar = document.getElementById('scoreBar');
-      if (bar) bar.style.width = v + '%';
-      if (v >= score) clearInterval(iv);
-    }, 20);
-    const el = (id) => document.getElementById(id);
-    if (el('tileMissing')) el('tileMissing').textContent = parsed.missing_count ?? parsed.missing_clauses?.length ?? '—';
-    if (el('tilePrecedents')) el('tilePrecedents').textContent = parsed.precedent_count ?? parsed.precedents?.length ?? '—';
-    if (el('tileArticles')) el('tileArticles').textContent = parsed.article_count ?? 4;
-
-    // Analysis tab
-    if (el('analysisOutput')) el('analysisOutput').innerHTML = escapeHtml(parsed.analysis || 'Analysis complete.');
-
-    // Precedents
-    if (el('precedentList') && parsed.precedents?.length) {
-      el('precedentList').innerHTML = parsed.precedents.map(p => `
-        <div class="precedent-item">
-          <div class="precedent-relevance">${p.strength || 85}% match</div>
-          <div class="precedent-name">${escapeHtml(p.name)}</div>
-          <div class="precedent-meta">
-            <span>${escapeHtml(p.citation || '')}</span>
-            <span>${p.court || ''} · ${p.year || ''}</span>
+  const container = document.getElementById('missingClausesContainer');
+  if (missingCount > 0) {
+    container.innerHTML = `
+      <div style="font-size:10px; text-transform:uppercase; color:var(--accent-3); margin-top:10px; letter-spacing:0.1em;">Actionable Feedback</div>
+      <div class="clause-list">
+        ${appState.missingClauses.map(c => `
+          <div class="clause-item" id="clause_${c.id}">
+            <div>
+              <div style="font-size:13px; font-weight:600; color:#F2E6CC;">⚠ ${c.name}</div>
+              <div style="font-size:11px; color:rgba(244,239,228,0.5);">${c.desc}</div>
+            </div>
+            <button class="btn-fix" onclick="applyAutoFix('${c.id}')">+ Auto-Fix Draft</button>
           </div>
-          <div style="font-size:11px;color:rgba(244,239,228,0.45);margin-top:5px;font-style:italic;font-family:Lora,serif;">${escapeHtml(p.relevance || '')}</div>
-        </div>`).join('');
-    } else if (el('precedentList')) {
-      el('precedentList').innerHTML = '<div style="color:rgba(244,239,228,0.4);font-size:12px;padding:12px;">No precedents extracted.</div>';
-    }
+        `).join('')}
+      </div>
+    `;
+  } else { container.innerHTML = ""; }
+}
 
-    // Missing clauses
-    if (el('clauseList') && parsed.missing_clauses?.length) {
-      el('clauseList').innerHTML = parsed.missing_clauses.map(c => `
-        <div class="card red-border" style="margin-bottom:8px;">
-          <div style="font-size:13px;color:#F0A870;font-weight:500;margin-bottom:4px;">⚠ ${escapeHtml(c.clause)}</div>
-          <div style="font-size:12px;color:rgba(244,239,228,0.55);font-style:italic;font-family:Lora,serif;">${escapeHtml(c.reason)}</div>
-        </div>`).join('');
-    } else if (el('clauseList')) {
-      el('clauseList').innerHTML = '<div style="color:rgba(244,239,228,0.4);font-size:12px;padding:12px;">No missing clauses identified.</div>';
-    }
+function applyAutoFix(id) {
+  const clause = appState.missingClauses.find(c => c.id === id);
+  if(!clause) return;
 
-    document.getElementById('topbarStatus').textContent = `Step 3 — Analysis complete · Score: ${score}/100`;
-  } catch(e) {
-    const el = document.getElementById('analysisOutput');
-    if (el) el.innerHTML = `<span style="color:#F0A870;">Error: ${e.message}</span>`;
+  const doc = document.getElementById('docOutput');
+  const fixHtml = `<br><br><span style="color:var(--green-3);"><b>[AUTO-INSERTED: ${clause.name}]</b></span><br>${clause.fixText}`;
+  doc.innerHTML += fixHtml;
+
+  appState.missingClauses = appState.missingClauses.filter(c => c.id !== id);
+  appState.lastScore += 10;
+  if (appState.lastScore > 100) appState.lastScore = 100;
+  
+  document.getElementById('tileScore').textContent = appState.lastScore;
+  document.getElementById('scoreBar').style.width = appState.lastScore + '%';
+  
+  renderMissingClausesUI();
+  
+  // Overwrite latest DB entry to save fix, preserving caseDetails and constRights
+  let db = getDB();
+  if(db.length > 0) {
+    db[0].content = doc.innerHTML;
+    db[0].score = appState.lastScore;
+    localStorage.setItem('vakeel_db', JSON.stringify(db));
   }
 }
 
-function renderB2BConst(area) {
-  document.getElementById('topbarStatus').textContent = 'Step 4 — Constitutional backing & writ suggestions';
-  area.innerHTML = `
-    <div class="sec-eyebrow">Phase 3 · Lawyer Domain · Step 4</div>
-    <div class="sec-title">Constitutional Backing & Writs</div>
-    <div class="alert gold">⚖ These constitutional provisions and writs were retrieved via vector search on type:"constitutional_law" and cross-referenced with your petition facts.</div>
+function goToConst() {
+  appState.maxStepReached = 3;
+  goStep('const');
+}
 
-    <div id="constOutput">
-      <div style="text-align:center;padding:30px;">
-        <div class="spinner" style="margin:0 auto 14px;"></div>
-        <div style="font-size:12px;color:rgba(244,239,228,0.4);">Generating constitutional analysis…</div>
-      </div>
-    </div>
-
-    <hr class="divider">
+// ────────────────────────────────────────────────
+// STEP 4: CONSTITUTIONAL OVERVIEW
+// ────────────────────────────────────────────────
+function renderConst(area) {
+  document.getElementById('topbarStatus').textContent = 'Step 4 — Case Overview & Constitutional Strategy';
+  
+  // Render Case Details block
+  const d = appState.data;
+  let html = `
+    <div class="sec-eyebrow">Phase 4 · Constitutional Integration</div>
+    <div class="sec-title">Case Overview & Rights</div>
+    
     <div class="card">
-      <div class="field-label" style="margin-bottom:8px;">Ask Vakeel about constitutional strategy</div>
-      <textarea class="field-textarea" id="b2bConstQ" placeholder="E.g. Should I file a writ of mandamus or certiorari? Can I invoke Art. 32 directly? What is the locus standi?" style="min-height:80px;"></textarea>
-      <div style="margin-top:10px;">
-        <button class="btn-primary" onclick="b2bConstAsk()">Ask →</button>
+      <div style="font-size:10px; color:rgba(244,239,228,0.4); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; border-bottom:1px solid var(--border-dark); padding-bottom:6px;">Case Details</div>
+      <div class="info-grid">
+        <div class="info-box"><div class="info-box-label">Petitioner</div><div class="info-box-val">${d.sender || 'N/A'}</div></div>
+        <div class="info-box"><div class="info-box-label">Respondent</div><div class="info-box-val">${d.respondent || 'N/A'}</div></div>
+        <div class="info-box"><div class="info-box-label">Category</div><div class="info-box-val" style="text-transform:capitalize;">${d.category || 'N/A'}</div></div>
+        <div class="info-box"><div class="info-box-label">AI Model Used</div><div class="info-box-val">${d.model || 'N/A'}</div></div>
+      </div>
+      <div style="font-size:12px; color:rgba(244,239,228,0.7); font-style:italic; line-height:1.5;">
+        <strong>Facts Snippet:</strong> ${d.facts ? d.facts.substring(0, 150) + '...' : 'N/A'}
       </div>
     </div>
-    <div id="constFollowup"></div>
+
+    <div class="alert gold" style="margin-top:16px;">⚖ Constitutional provisions identified via vector match on your case facts.</div>
+    <div class="article-list">
   `;
-  if (appState.b2bData) runB2BConst();
-}
 
-async function runB2BConst() {
-  const d = appState.b2bData;
-  const prompt = `You are Vakeel AI. Based on this petition, provide constitutional analysis.
-
-PETITION SUMMARY: ${d.petition?.slice(0, 500)}
-Case type: ${d.caseType} | Forum: ${d.forum}
-${appState.b2bResult ? `Existing analysis: ${appState.b2bResult.analysis?.slice(0,300)}` : ''}
-
-Provide constitutional backing in this JSON (respond with JSON only):
-{
-  "articles": [
-    {"num": "Article X", "title": "<right name>", "applicability": "<why it applies to this petition>", "landmark_case": "<real landmark case name>"},
-    ...
-  ],
-  "writs": [
-    {"type": "<Habeas Corpus/Mandamus/Certiorari/Prohibition/Quo Warranto>", "applicability": "<why this writ fits>", "when_to_use": "<specific trigger>"},
-    ...
-  ],
-  "strategy_note": "<1-2 sentence overall constitutional strategy recommendation>"
-}
-Provide 3-5 articles and 1-3 writs relevant to the case type.`;
-
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':d.key,'anthropic-version':'2023-06-01'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1500, messages:[{role:'user',content:prompt}] })
-    });
-    const data = await resp.json();
-    const text = data.content?.[0]?.text || '{}';
-    let parsed;
-    try { parsed = JSON.parse(text.replace(/```json|```/g,'')); }
-    catch { parsed = { articles:[], writs:[], strategy_note: text.slice(0,200) }; }
-
-    const out = document.getElementById('constOutput');
-    if (!out) return;
-    let html = '';
-    if (parsed.strategy_note) {
-      html += `<div class="card gold-border" style="margin-bottom:16px;">
-        <div style="font-size:10px;color:var(--gold-3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:6px;">Strategic Recommendation</div>
-        <div style="font-size:13px;color:#F2E6CC;font-family:Lora,serif;font-style:italic;line-height:1.6;">${escapeHtml(parsed.strategy_note)}</div>
-      </div>`;
-    }
-    if (parsed.articles?.length) {
-      html += `<div style="font-size:10px;color:rgba(244,239,228,0.35);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:10px;">Constitutional Articles</div>
-      <div class="article-list">`;
-      html += parsed.articles.map(a => `
-        <div class="article-item">
-          <div class="article-num">${escapeHtml(a.num)}</div>
-          <div class="article-title">${escapeHtml(a.title)}</div>
-          <div class="article-desc">${escapeHtml(a.applicability)}</div>
-          ${a.landmark_case ? `<div style="font-size:10px;color:rgba(240,192,64,0.55);margin-top:5px;">Landmark: ${escapeHtml(a.landmark_case)}</div>` : ''}
-        </div>`).join('');
-      html += `</div>`;
-    }
-    if (parsed.writs?.length) {
-      html += `<div style="font-size:10px;color:rgba(244,239,228,0.35);text-transform:uppercase;letter-spacing:0.12em;margin:16px 0 10px;">Available Writs</div>`;
-      html += parsed.writs.map(w => `
-        <div class="card green-border" style="margin-bottom:8px;">
-          <div style="font-size:13px;color:var(--green-3);font-weight:500;margin-bottom:4px;">Writ of ${escapeHtml(w.type)}</div>
-          <div style="font-size:12px;color:rgba(244,239,228,0.6);margin-bottom:4px;">${escapeHtml(w.applicability)}</div>
-          <div style="font-size:11px;color:rgba(244,239,228,0.35);font-style:italic;font-family:Lora,serif;">${escapeHtml(w.when_to_use)}</div>
-        </div>`).join('');
-    }
-    out.innerHTML = html || '<div style="color:rgba(244,239,228,0.4);font-size:12px;">No constitutional data extracted.</div>';
-  } catch(e) {
-    const out = document.getElementById('constOutput');
-    if (out) out.innerHTML = `<span style="color:#F0A870;">Error: ${e.message}</span>`;
+  // Render dynamic rights
+  if (appState.constRights && appState.constRights.length > 0) {
+    html += appState.constRights.map(r => `
+      <div class="article-item">
+        <div class="article-num">${r.num}</div>
+        <div class="article-title">${r.title}</div>
+        <div class="article-desc">${r.desc}</div>
+      </div>
+    `).join('');
+  } else {
+    html += `<div style="font-size:12px; color:var(--text-muted);">No specific constitutional rights mapped for this category.</div>`;
   }
-}
 
-async function b2bConstAsk() {
-  const key = appState.b2bData?.key;
-  const q = document.getElementById('b2bConstQ')?.value.trim();
-  if (!q || !key) return;
-  const outDiv = document.getElementById('constFollowup');
-  outDiv.innerHTML = `<div class="card" style="margin-top:12px;"><div class="output-box" id="constFollowupText"><span class="cursor"></span></div></div>`;
-  const prompt = `You are Vakeel AI, a constitutional law expert. Answer this question for a lawyer:
-Context: ${appState.b2bData?.petition?.slice(0,400) || ''}
-Question: ${q}
-Be precise, cite real Indian constitutional provisions, and give actionable advice in 150 words or less.`;
-  await streamToElement('constFollowupText', key, prompt);
+  html += `
+    </div>
+    <div class="action-row" style="margin-top:20px;">
+       <button class="btn-secondary" onclick="openDatabase()">View Case Files / History</button>
+       <button class="btn-primary" onclick="startNewRun()">Start New Case</button>
+    </div>
+  `;
+
+  area.innerHTML = html;
 }
 
 // ────────────────────────────────────────────────
-// SHARED STREAMING HELPER
+// DATABASE / RESUME CASE
 // ────────────────────────────────────────────────
-async function streamToElement(elId, key, prompt) {
-  const el = () => document.getElementById(elId);
-  if (!el()) return;
-  el().innerHTML = '<span class="cursor"></span>';
-  let full = '';
-  try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:800, stream:true, messages:[{role:'user',content:prompt}] })
-    });
-    if (!resp.ok) throw new Error(await resp.text());
-    const reader = resp.body.getReader();
-    const dec = new TextDecoder();
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      const lines = dec.decode(value).split('\n').filter(l=>l.startsWith('data: '));
-      for (const line of lines) {
-        try {
-          const d = JSON.parse(line.slice(6));
-          if (d.type === 'content_block_delta' && d.delta?.text) {
-            full += d.delta.text;
-            if (el()) el().innerHTML = escapeHtml(full) + '<span class="cursor"></span>';
-          }
-        } catch {}
-      }
-    }
-    if (el()) el().innerHTML = escapeHtml(full);
-  } catch(e) {
-    if (el()) el().innerHTML = `<span style="color:#F0A870;">Error: ${e.message}</span>`;
+function openDatabase() {
+  document.getElementById('topbarStatus').textContent = '📂 Case Files & History Database';
+  const area = document.getElementById('scrollArea');
+  const db = getDB();
+
+  let html = `
+    <div class="sec-eyebrow">Local Storage</div>
+    <div class="sec-title">Your Case Files</div>
+    <div class="alert info">Click any case below to reload its details, drafts, and constitutional rights.</div>
+  `;
+
+  if (db.length === 0) {
+    html += `<div style="color:var(--text-muted); font-size:12px;">No cases found. Run a pipeline to save data.</div>`;
+  } else {
+    html += db.map(item => `
+      <div class="db-item" onclick="loadCase(${item.id})">
+        <div class="db-header">
+          <span class="db-title">${item.title}</span>
+          <span class="db-date">${item.date}</span>
+        </div>
+        <div style="font-size:11px; color:#E8D5B8; margin-bottom:6px;">
+          <strong>vs. ${item.caseDetails?.respondent || 'Unknown Respondent'}</strong>
+        </div>
+        <div style="font-size:12px; color:rgba(244,239,228,0.5); font-family:Lora,serif; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+           ${item.content.replace(/<[^>]*>?/gm, '').substring(0, 90)}...
+        </div>
+        <div style="margin-top:8px;">
+          <span class="tag tag-s">Score: ${item.score}/100</span>
+          <span class="tag tag-p">Type: ${item.type}</span>
+          <span class="tag tag-c">${item.constRights?.length || 0} Rights Found</span>
+        </div>
+      </div>
+    `).join('');
   }
+  area.innerHTML = html;
+}
+
+function loadCase(id) {
+  const db = getDB();
+  const item = db.find(x => x.id === id);
+  if(!item) return;
+
+  if (item.type === 'analyze_petition' || item.type === 'draft_petition') {
+    appState.mode = 'b2b';
+  } else {
+    appState.mode = 'b2c';
+  }
+  
+  document.getElementById('modeB2C').classList.toggle('active', appState.mode === 'b2c');
+  document.getElementById('modeB2B').classList.toggle('active', appState.mode === 'b2b');
+
+  // Push ALL saved data back into state
+  appState.data = item.caseDetails || { type: item.type, model: 'Loaded from Database' };
+  appState.constRights = item.constRights || [];
+  appState.currentDraft = item.content;
+  appState.lastScore = item.score;
+  appState.missingClauses = []; 
+  appState.loadedFromDB = true;
+  appState.maxStepReached = 3; 
+  
+  // Jump to draft step
+  goStep('draft');
 }
 
 // ────────────────────────────────────────────────
-// UTILS
+// PDF EXPORT
 // ────────────────────────────────────────────────
+function generatePDF() {
+  const element = document.getElementById('pdfTarget');
+  const editableBox = document.getElementById('docOutput');
+  
+  appState.currentDraft = editableBox.innerHTML;
+  
+  const clone = element.cloneNode(true);
+  clone.style.background = "#ffffff";
+  clone.style.color = "#000000";
+  clone.style.padding = "40px";
+  clone.style.fontFamily = "serif";
+  clone.style.fontSize = "14px";
+  clone.style.lineHeight = "1.8";
+  
+  const badge = clone.querySelector('.edit-badge');
+  if(badge) badge.remove();
+  
+  const box = clone.querySelector('.output-box');
+  if(box) {
+     box.style.border = "none";
+     box.style.background = "transparent";
+     box.style.color = "#000000";
+  }
+
+  const tempDiv = document.createElement('div');
+  tempDiv.appendChild(clone);
+  document.body.appendChild(tempDiv);
+  tempDiv.style.position = "absolute";
+  tempDiv.style.left = "-9999px";
+
+  const opt = {
+    margin:       0.5,
+    filename:     `Vakeel_Draft_${Date.now()}.pdf`,
+    image:        { type: 'jpeg', quality: 0.98 },
+    html2canvas:  { scale: 2 },
+    jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+  };
+
+  html2pdf().set(opt).from(clone).save().then(() => {
+    document.body.removeChild(tempDiv);
+  });
+}
+
+// ────────────────────────────────────────────────
+// MOCK STREAMING HELPER
+// ────────────────────────────────────────────────
+async function mockStreamText(text, elementId, speedMs = 15) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  el.innerHTML = '<span class="cursor"></span>';
+  let currentText = '';
+  const tokens = text.split(' ');
+
+  for (let i = 0; i < tokens.length; i++) {
+    currentText += tokens[i] + ' ';
+    el.innerHTML = escapeHtml(currentText).replace(/\n/g, '<br>') + '<span class="cursor"></span>';
+    await new Promise(r => setTimeout(r, speedMs)); 
+  }
+  el.innerHTML = escapeHtml(currentText).replace(/\n/g, '<br>');
+}
+
 function escapeHtml(str) {
   if (!str) return '';
   return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-function copyNotice() {
-  const text = appState.noticeText || document.getElementById('noticeOutput')?.innerText || '';
-  navigator.clipboard.writeText(text).then(() => alert('Notice copied to clipboard!')).catch(() => {});
-}
-
-// ────────────────────────────────────────────────
-// START
-// ────────────────────────────────────────────────
 init();
 </script>
 </body>
